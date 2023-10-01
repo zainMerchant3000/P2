@@ -1,6 +1,9 @@
 #ifndef _H_FORMULA_
 #define _H_FORMULA_
 
+#include <ctime>
+#include <cstdlib>
+
 namespace formula {
 
 // Exclusive upper bound for proficiency levels (see class Formula).
@@ -10,36 +13,55 @@ namespace formula {
     private:
         // Non-negative proficiency level (always starts with 0).
         int proficiencyLevel;
-        // Negative-number-terminated array of non-negative integers.
-        //  NULL: Not allocated.
-        //  first n >= 0 such that [n] < 0: Length is n.
-        int *miq, *moq;
+
+        int *inputQuantity, *outputQuantity;
         // Null-terminated array of NUL-terminated strings.
         //  NULL: Not allocated.
         //  [0] == NULL: Empty.
         //  [n] == NULL: Length is n.
-        char **min, **mon;
+        char **inputName, **outputName;
 
-        // These arrays will be moved into this object (shared).
-        Formula(int *miq, int *moq, char **min, char **mon)
-                : proficiencyLevel(0), miq(miq), moq(moq), min(min), mon(mon)
-        {}
 
         // Generate a uniform random number in the *open* interval (0.0, 1.0).
-        double mopen01r();
+        int GenerateRandomNumb();
 
         // Generate the random "output factor" (f > 0.0) variate
         // according to internal randomness and a certain distribution.
-        double generateOutputFactor();
+        //double generateOutputFactor();
 
     public:
+        double generateOutputFactor();
+
+
+        // These arrays will be moved into this object (shared).
+
+        Formula(int *miq, int *moq, char **min, char **mon) : proficiencyLevel(0), inputQuantity(miq),
+                                                              outputQuantity(moq), inputName(min), outputName(mon) {
+            srand(time(0));
+        }
+
+
         // Apply the formula onto the shared arrays representing
         // a given inventory.
-        void apply(int *q, char **n);
+        void apply(int *inventoryQuantity, char **inventoryName);
 
         // Increase this object's proficiency level unless it would
         // equal or exceed `PROFICIENCY_LEVEL_LIMIT`.
         void levelup();
+
+        // getter methods for querying
+        int *getInputQuantities();
+
+        int *getOutputQuantities();
+
+        char **getInputName();
+
+        char **getOutputName();
+
+        // using for testing functionality (client should not be able to do query this)
+        int getProficiencyLevel();
+
+
     };
 
 }
