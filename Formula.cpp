@@ -101,16 +101,6 @@ void Formula::CopyOutputInto(int *q, const char **n) const {
     }
 }
 
-int *Formula::CopyoutputArray() {
-    int *new_outputQuantities = new int[countOutputs];
-    // Copy the elements from the old array to the new array
-    for (int i = 0; i < this->countOutputs; i++) {
-        new_outputQuantities[i] = this->outputQuantities[i];
-    }
-    // Return the pointer to the new array
-    return new_outputQuantities;
-}
-
 Formula::Formula(const Formula &src) : proficiencyLevel(src.proficiencyLevel),
                                        countInputs(src.countInputs), countOutputs(src.countOutputs), rng_dev(),
                                        rng(rng_dev()),

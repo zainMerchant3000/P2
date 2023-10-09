@@ -94,9 +94,6 @@ namespace formula {
         /// Copy the input quantities and names into designated array
         void CopyOutputInto(int *q, const char **n) const;
 
-        // FIXME: for testing only, to be removed.
-        int *CopyoutputArray();
-
         //copy constructor
         Formula(const Formula &);
 
