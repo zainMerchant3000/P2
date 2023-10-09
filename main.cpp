@@ -93,7 +93,8 @@ int main() {
     formulas = arrayOfFormulas(nFormulas, inputLength, outputLength, inputQuantities, inputNames, outputNames);
     //creating myPlan object with initial array of Formula objects
 
-    Plan *myPlan = new Plan(formulas, nFormulas); // Normal constructor
+    // Normal constructor Test
+    Plan *myPlan = new Plan(formulas, nFormulas);
     Formula *newFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
     myPlan->addFormula(newFormula);
     int numFormula = myPlan->getNumFormula();
@@ -104,9 +105,19 @@ int main() {
     // Replace a Formula at index 1
     Formula *replacementFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
     myPlan->replaceFormula(1, replacementFormula);
-    Plan *yourPlan = new Plan(*myPlan); // copy constructor (direct initialization)
-    int numFormula_Copy = myPlan->getNumFormula();
-    std::cout << "numFormulas: " << numFormula_Copy << std::endl;
+    int numFormula_Replace = myPlan->getNumFormula();
+    std::cout << "numFormulas: " << numFormula_Replace << std::endl;
+
+    // Copy constructor Test
+    Plan *yourPlan = new Plan(*myPlan);
+    yourPlan->removeLastFormula();
+    int numFormula_Copy = yourPlan->getNumFormula();
+    std::cout << "numFormulas Copy: " << numFormula_Copy << std::endl;
+    std::cout << "numFormulas Original: " << myPlan->getNumFormula() << std::endl;
+    myPlan->removeLastFormula();
+    std::cout << "numFormulas Copy: " << yourPlan->getNumFormula() << std::endl;
+    std::cout << "numFormulas Original: " << myPlan->getNumFormula() << std::endl;
+
     Plan *ourPlan = new Plan(formulas, nFormulas); // normal constructor
     *ourPlan = *myPlan; // assignment operator
     int numFormula_Assignment = myPlan->getNumFormula();
@@ -114,10 +125,10 @@ int main() {
     *ourPlan = *ourPlan; // self assignment
     int numFormula_Self = ourPlan->getNumFormula();
     std::cout << "numFormulas: " << numFormula_Self << std::endl;
-     /*
+    /*
 
 
-    //invoke copy constructor for Plan
+   //invoke copy constructor for Plan
 */
 
 
@@ -153,11 +164,8 @@ int main() {
     }
 */
 
-    // Delete each formula and the array of pointers
-    for (int i = 0; i < nFormulas; i++) {
-        delete formulas[i];
-    }
-    delete[] formulas;
 
+    delete yourPlan;
+    delete myPlan;
     return 0;
 }

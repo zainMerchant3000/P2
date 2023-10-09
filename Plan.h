@@ -28,7 +28,6 @@ replace: Formula[0], Formula[1], Formula[2] -> different one
         Formula **formulas;
         /// Count the number of `formulas`.
         int numFormulas;
-
     public:
         /// Count the number of formulas.
         int getNumFormula();

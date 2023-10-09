@@ -12,10 +12,7 @@ namespace formula {
         /// Non-negative proficiency level (always starts with 0).
         int proficiencyLevel{};
 
-        /// Null-terminated array of NUL-terminated strings.
-        //  NULL: Not allocated.
-        //  [0] == NULL: Empty.
-        //  [n] == NULL: Length is n.
+        /// Store names of input and output resources.
         const char **inputNames{}, **outputNames{};
         /// Count the number of each resource.
         int *inputQuantities{}, *outputQuantities{};
