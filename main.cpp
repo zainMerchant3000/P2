@@ -4,6 +4,7 @@
 
 #include "Formula.h"
 #include "Plan.h"
+
 using namespace std;
 using namespace formula;
 using namespace plan;
@@ -92,19 +93,34 @@ int main() {
     formulas = arrayOfFormulas(nFormulas, inputLength, outputLength, inputQuantities, inputNames, outputNames);
     //creating myPlan object with initial array of Formula objects
 
-    Plan *myPlan = new Plan(formulas, nFormulas);
-    // Add a new Formula
-    Formula* newFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
+    Plan *myPlan = new Plan(formulas, nFormulas); // Normal constructor
+    Formula *newFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
     myPlan->addFormula(newFormula);
-    myPlan->numFormulas;
     int numFormula = myPlan->getNumFormula();
     std::cout << "numFormulas: " << numFormula << std::endl;
     myPlan->removeLastFormula();
     int numFormula_Two = myPlan->getNumFormula();
     std::cout << "numFormulas: " << numFormula_Two << std::endl;
     // Replace a Formula at index 1
-    Formula* replacementFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
+    Formula *replacementFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
     myPlan->replaceFormula(1, replacementFormula);
+    Plan *yourPlan = new Plan(*myPlan); // copy constructor (direct initialization)
+    int numFormula_Copy = myPlan->getNumFormula();
+    std::cout << "numFormulas: " << numFormula_Copy << std::endl;
+    Plan *ourPlan = new Plan(formulas, nFormulas); // normal constructor
+    *ourPlan = *myPlan; // assignment operator
+    int numFormula_Assignment = myPlan->getNumFormula();
+    std::cout << "numFormulas: " << numFormula_Assignment << std::endl;
+    *ourPlan = *ourPlan; // self assignment
+    int numFormula_Self = ourPlan->getNumFormula();
+    std::cout << "numFormulas: " << numFormula_Self << std::endl;
+     /*
+
+
+    //invoke copy constructor for Plan
+*/
+
+
 
 
 /*
@@ -137,11 +153,11 @@ int main() {
     }
 */
 
-          // Delete each formula and the array of pointers
-              for (int i = 0; i < nFormulas; i++) {
-                  delete formulas[i];
-              }
-              delete[] formulas;
+    // Delete each formula and the array of pointers
+    for (int i = 0; i < nFormulas; i++) {
+        delete formulas[i];
+    }
+    delete[] formulas;
 
     return 0;
 }
