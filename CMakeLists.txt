@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(P2 main.cpp
         Formula.cpp
-        Formula.h)
+        Formula.h
+        Plan.cpp
+        Plan.h)
