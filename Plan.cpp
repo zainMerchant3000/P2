@@ -1,6 +1,5 @@
-//
-// Created by zain7 on 10/3/2023.
-//
+//Zain-Abbas Merchant
+//CPSC 3200 P2
 
 /*
  Implementation Invariant:
@@ -15,18 +14,44 @@ Includes Copy Constructor, assignment operator, and move semantics for efficient
 using namespace plan;
 using namespace formula;
 
+//private utility copy
+void plan::Plan::copy(const Plan &other) {
+    this->numFormulas = other.numFormulas;
+    this->formulas = new Formula *[other.numFormulas];
+    for (int i = 0; i < other.numFormulas; i++) {
+        formulas[i] = new Formula(*other.formulas[i]); // Use Formula's copy constructor
+    }
+
+}
+
+/*
 // Deep copy constructor
 Plan::Plan(const Plan &other) : numFormulas(other.numFormulas), formulas(new Formula *[other.numFormulas]) {
+    this->numFormulas = other.numFormulas;
+    this->formulas = new Formula *[other.numFormulas];
     for (int i = 0; i < other.numFormulas; i++) {
         formulas[i] = new Formula(*other.formulas[i]); // Use Formula's copy constructor
     }
 }
+ */
+
+///copy constructor deep copy
+Plan::Plan(const Plan &other)  {
+    copy(other);
+
+}
+
+
+
 //assignment operator
 Plan &Plan::operator=(const Plan &src) {
     if (this == &src)return *this;
+    copy(src);
+    /*
     this->numFormulas = src.numFormulas;
     this->formulas = new Formula *[numFormulas];
     for (int i = 0; i < numFormulas; i++) { formulas[i] = new Formula(*src.formulas[i]); }
+     */
     return *this;
 }
 //move copy constructor

@@ -1,6 +1,5 @@
-//
-// Created by zain7 on 10/3/2023.
-//
+//Zain-Abbas Merchant
+//CPSC 3200 P2
 #ifndef P2_PLAN_H
 #define P2_PLAN_H
 
@@ -42,6 +41,8 @@ replace: Formula[0], Formula[1], Formula[2] -> different one
         /// Every member refers to a HEAP-allocated (as opposed to stack- or statically-allocated) object.
         Formula **formulas;
         /// Count the number of `formulas`.
+
+        void copy(const Plan &); ///private utility function
         int numFormulas;
     public:
         /// Count the number of formulas.

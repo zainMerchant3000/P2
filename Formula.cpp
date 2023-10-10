@@ -1,3 +1,6 @@
+//Zain-Abbas Merchant
+//CPSC 3200 P2
+
 #include <cmath>
 #include <iostream>
 

@@ -1,3 +1,6 @@
+//Zain-Abbas Merchant
+//CPSC 3200 P2
+
 #ifndef H_FORMULA_
 #define H_FORMULA_
 

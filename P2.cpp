@@ -1,3 +1,5 @@
+//Zain-Abbas Merchant
+//CPSC 3200 P2
 #include <iostream>
 #include <random>
 #include <algorithm>
@@ -74,29 +76,6 @@ arrayOfFormulas(int nFormulas, int inputLength, int outputLength, const int inpu
     return fs;
 }
 
-//create array of Plan objects
-Plan **
-arrayOfPlans(int nPlans, Plan **plan, Formula **formulas)  {
-
-
-    // nPlans > 0
-    Plan **plans = new Plan *[nPlans];
-
-
-    // change # of Formulas in each Plan object
-
-
-   for (int i = 0; i < nPlans; i++) {
-
-       plans[i] = new Plan(formulas, nPlans); // Use Plan's copy constructor
-
-   }
-    return plans;
-
-}
-
-
-
 int main() {
     int nFormulas = 20; // Generate length of array of Formulas
     int inputLength = 5; // Each formula has  input variables
@@ -108,76 +87,46 @@ int main() {
     //create array of Formula objects
     Formula **formulas;
     formulas = arrayOfFormulas(nFormulas, inputLength, outputLength, inputQuantities, inputNames, outputNames);
-   formulas[0]->LevelUp();
-    //create array of Plan objects
-    Plan **plans;
-    int nPlans = 12;
-    plans = arrayOfPlans(nPlans, plans, formulas);
-
-    for (int i = 0; i < nPlans; i++) {
-       // function to call
-        std::cout << " " << plans[i]->getNumFormula() << " " << std::endl;
-        Formula *newFormula = new Formula(inputLength, outputLength, inputQuantities, inputNames, outputNames);
-        plans[i]->addFormula(newFormula);
-        std::cout << " " << plans[i]->getNumFormula() << " " << std::endl;
-
-    }
-
-
     //creating myPlan object with initial array of Formula objects
 
     // Normal constructor Test
     Plan *myPlan = new Plan(formulas, nFormulas);
-
     Formula *newFormula = new Formula(inputLength, outputLength, inputQuantities, inputNames, outputNames);
     myPlan->addFormula(newFormula);
     int numFormula = myPlan->getNumFormula();
-    std::cout << "numFormulas: " << numFormula << std::endl;
+    //std::cout << "numFormulas: " << numFormula << std::endl;
     myPlan->removeLastFormula();
     int numFormula_Two = myPlan->getNumFormula();
-    std::cout << "numFormulas: " << numFormula_Two << std::endl;
+   // std::cout << "numFormulas: " << numFormula_Two << std::endl;
     // Replace a Formula at index 1
     Formula *replacementFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
     myPlan->replaceFormula(1, replacementFormula);
     int numFormula_Replace = myPlan->getNumFormula();
-    std::cout << "numFormulas: " << numFormula_Replace << std::endl;
+   // std::cout << "numFormulas: " << numFormula_Replace << std::endl;
 
     // Copy constructor Test
     Plan *yourPlan = new Plan(*myPlan);
     yourPlan->removeLastFormula();
     int numFormula_Copy = yourPlan->getNumFormula();
-    std::cout << "numFormulas Copy: " << numFormula_Copy << std::endl;
-    std::cout << "numFormulas Original: " << myPlan->getNumFormula() << std::endl;
+    //std::cout << "numFormulas Copy: " << numFormula_Copy << std::endl;
+   // std::cout << "numFormulas Original: " << myPlan->getNumFormula() << std::endl;
     myPlan->removeLastFormula();
-    std::cout << "numFormulas Copy: " << yourPlan->getNumFormula() << std::endl;
-    std::cout << "numFormulas Original: " << myPlan->getNumFormula() << std::endl;
+    //std::cout << "numFormulas Copy: " << yourPlan->getNumFormula() << std::endl;
+   // std::cout << "numFormulas Original: " << myPlan->getNumFormula() << std::endl;
 
+    //assignment operator test
     Plan *ourPlan = new Plan(formulas, nFormulas); // normal constructor
     *ourPlan = *myPlan; // assignment operator
     int numFormula_Assignment = myPlan->getNumFormula();
-    std::cout << "numFormulas: " << numFormula_Assignment << std::endl;
+   // std::cout << "numFormulas: " << numFormula_Assignment << std::endl;
     *ourPlan = *ourPlan; // self assignment
     int numFormula_Self = ourPlan->getNumFormula();
-    std::cout << "numFormulas: " << numFormula_Self << std::endl;
+    //std::cout << "numFormulas: " << numFormula_Self << std::endl;
 
-/*
-    for (int i = 0; i < nFormulas; i++) {
-        int length_input = formulas[i]->InputLength();
-        int length_output = formulas[i]->OutputLength();
-        //double probability = formulas[i]->GenerateRandomNumber();
-        formulas[i]->LevelUp();
-        std::cout << " inputLength: " << length_input << std::endl;
-        std::cout << " outputlength: " << length_output << std::endl;
-        double generateRandomNum = formulas[i]->GenerateRandomNumber();
-        std::cout << " GenerateRandomNumber: " << generateRandomNum << std::endl;
-        double generateOutputFactor = formulas[i]->GenerateOutputFactor();
-        std::cout << " GenerateOutputFactor: " <<generateOutputFactor << std::endl;
-
-    }
-*/
 
 
     delete yourPlan;
     delete myPlan;
+    delete ourPlan;
     return 0;
 }
