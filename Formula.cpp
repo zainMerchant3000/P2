@@ -3,18 +3,36 @@
 
 #include "Formula.h"
 
-using namespace formula;
+/*
+ Implementation Invariant:
+Includes Copy Constructor, assignment operator, and move semantics for efficient deep copying
+ Formula is determined by outputFactor (internally controlled by generated number between (0.0 - 1.0)
+ proficiencyLevel controls different probabilities of outputFactors
+ formula applied with outputfactor to determine outputQuantity (Apply())
+ */
 
+using namespace formula;
+//calculate random number based on range (0.0, 1.0)
 double Formula::GenerateRandomNumber() {
     // Avoid 0.0.
     double d;
     do { d = dist100(rng); } while (d == 0.0);
     return d;
 }
+// Apply decrements input resources and increments output resources in the inventory
+// once as specified in this Formula.
+//
+// Pre-conditions:
+//  1. All ingredient resources and output resources must be allocated in the pair.
+//  2. There exists a positive count for each input ingredient in this Formula.
+//  3. There exists a non-negative count for each output in this Formula.
+// Post-conditions:
+//  1. Internal state of this Formula won't change, except for internal RNG and the output Quantity.
+//  2. If successful, each Quantity in outputQuantity will be changed based on the formula and
+//  4. Either case, there will be no negative counts of outputQuantities.
 
 void Formula::Apply() {
     double f = this->GenerateOutputFactor();
-    //std::cout << "inside Apply method" << std::endl;
     int i = 0;
     for (const int *p = this->outputQuantities; i < this->countOutputs; p++, i++) {
         // 10x formula for each qty
@@ -24,7 +42,7 @@ void Formula::Apply() {
 
 
 }
-
+//determine failure, output factor if successful
 double Formula::GenerateOutputFactor() {
     double outputFactor;
     double randomNumber = GenerateRandomNumber();
@@ -76,31 +94,32 @@ double Formula::GenerateOutputFactor() {
     } else {
         throw "Unknown proficiency level {0}";
     }
-    // FIXME: testing
-    //return 1;
     return outputFactor;
 }
 
+//preconditon:
+// postcondition: proficiency level goes above the maximum level defined by class designer (checked within method)
+/// <summary>Increase the proficiency level by one, up to but not including the level limit.</summary>
 void Formula::LevelUp() {
     if (proficiencyLevel < PROFICIENCY_LEVEL_LIMIT) {
         proficiencyLevel++;
     }
 }
-
+//create copy of input arrays for users to query
 void Formula::CopyInputInto(int *q, const char **n) const {
     for (int i = 0; i < this->countInputs; i++) {
         q[i] = this->inputQuantities[i];
         n[i] = this->inputNames[i];
     }
 }
-
+//create copy of output arrays for users to query
 void Formula::CopyOutputInto(int *q, const char **n) const {
     for (int i = 0; i < this->countOutputs; i++) {
         q[i] = this->outputQuantities[i];
         n[i] = this->outputNames[i];
     }
 }
-
+//copy constructor
 Formula::Formula(const Formula &src) : proficiencyLevel(src.proficiencyLevel),
                                        countInputs(src.countInputs), countOutputs(src.countOutputs), rng_dev(),
                                        rng(rng_dev()),
@@ -118,7 +137,7 @@ Formula::Formula(const Formula &src) : proficiencyLevel(src.proficiencyLevel),
         this->outputQuantities[i] = src.outputQuantities[i];
     }
 }
-
+//assignment operator
 Formula &Formula::operator=(const Formula &src) {
     if (this == &src) return *this;
     this->proficiencyLevel = src.proficiencyLevel;
@@ -138,7 +157,7 @@ Formula &Formula::operator=(const Formula &src) {
     }
     return *this;
 }
-
+//move copy constructor
 Formula::Formula(Formula &&src) noexcept: proficiencyLevel(src.proficiencyLevel),
                                           countInputs(src.countInputs), countOutputs(src.countOutputs),
                                           inputNames(src.inputNames), inputQuantities(src.inputQuantities),
@@ -153,7 +172,7 @@ Formula::Formula(Formula &&src) noexcept: proficiencyLevel(src.proficiencyLevel)
     src.outputNames = nullptr;
     src.outputQuantities = nullptr;
 }
-
+//move assignment operator
 Formula &Formula::operator=(Formula &&src) noexcept {
     using std::swap;
     swap(this->proficiencyLevel, src.proficiencyLevel);
@@ -165,8 +184,3 @@ Formula &Formula::operator=(Formula &&src) noexcept {
     swap(this->outputQuantities, src.outputQuantities);
     return *this;
 }
-
-
-
-
-

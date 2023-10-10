@@ -74,28 +74,62 @@ arrayOfFormulas(int nFormulas, int inputLength, int outputLength, const int inpu
     return fs;
 }
 
+//create array of Plan objects
+Plan **
+arrayOfPlans(int nPlans, Plan **plan, Formula **formulas)  {
+
+
+    // nPlans > 0
+    Plan **plans = new Plan *[nPlans];
+
+
+    // change # of Formulas in each Plan object
+
+
+   for (int i = 0; i < nPlans; i++) {
+
+       plans[i] = new Plan(formulas, nPlans); // Use Plan's copy constructor
+
+   }
+    return plans;
+
+}
+
+
+
 int main() {
-    int nFormulas = 30; // Generate 3 formulas
+    int nFormulas = 20; // Generate length of array of Formulas
     int inputLength = 5; // Each formula has  input variables
     int outputLength = 1; // Each formula has  output variable
     int *inputQuantities = new int[5]{10, 6, 6, 6, 7};
     // make client specify size of array to pass in count input
     const char *inputNames[] = {"butter", "egg", "sugar", "flour", "baking soda"};
-
     const char *outputNames[] = {"cookies"};
-    /*
-    Formula cookies(5, 1, inputQuantities, inputNames, outputNames);
-    int* outputArr2 = cookies.CopyoutputArray();
-    std::cout << outputArr2[0] << std::endl;
-    std::cout << outputArr2[1] << std::endl;
-     */
+    //create array of Formula objects
     Formula **formulas;
     formulas = arrayOfFormulas(nFormulas, inputLength, outputLength, inputQuantities, inputNames, outputNames);
+   formulas[0]->LevelUp();
+    //create array of Plan objects
+    Plan **plans;
+    int nPlans = 12;
+    plans = arrayOfPlans(nPlans, plans, formulas);
+
+    for (int i = 0; i < nPlans; i++) {
+       // function to call
+        std::cout << " " << plans[i]->getNumFormula() << " " << std::endl;
+        Formula *newFormula = new Formula(inputLength, outputLength, inputQuantities, inputNames, outputNames);
+        plans[i]->addFormula(newFormula);
+        std::cout << " " << plans[i]->getNumFormula() << " " << std::endl;
+
+    }
+
+
     //creating myPlan object with initial array of Formula objects
 
     // Normal constructor Test
     Plan *myPlan = new Plan(formulas, nFormulas);
-    Formula *newFormula = new Formula(5, 1, inputQuantities, inputNames, outputNames);
+
+    Formula *newFormula = new Formula(inputLength, outputLength, inputQuantities, inputNames, outputNames);
     myPlan->addFormula(newFormula);
     int numFormula = myPlan->getNumFormula();
     std::cout << "numFormulas: " << numFormula << std::endl;
@@ -125,28 +159,6 @@ int main() {
     *ourPlan = *ourPlan; // self assignment
     int numFormula_Self = ourPlan->getNumFormula();
     std::cout << "numFormulas: " << numFormula_Self << std::endl;
-    /*
-
-
-   //invoke copy constructor for Plan
-*/
-
-
-
-
-/*
-
-
-
-    // Print out the expressions of each formula
-    double outputFactor = formulas[0]->GenerateOutputFactor();
-    std::cout << "outputFactor: " << outputFactor << std::endl;
-    formulas[0]->Apply();
-    int* outputArr = formulas[0]->CopyoutputArray();
-    std::cout << outputArr[0] << std::endl;
-    std::cout << outputArr[1] << std::endl;
-
-    //formulas[0]->CopyInputInto(inputQuantities, inputNames);
 
 /*
     for (int i = 0; i < nFormulas; i++) {

@@ -3,6 +3,19 @@
 
 #include <random>
 
+/*
+ * //class invariant:
+// constructor sets both input and output quantities along with names of each associated quantities as arrays
+ size of input quantities and input and outputNames are determined by client
+// the client is responsible for providing the number and name of each resource as an array
+// the client can query the quantity and name of the input and output resources
+// the input quantity and names are immutable after instantiation (are stable throughout the object's lifetime)
+// class designer can simulate possible output of resources through Apply()
+
+ copy semantics and deep copying to prevent data curroption (using heap memory)
+Formula class is a subObject of Plan class (Formula object is passed as a member variable for composition in Plan class)
+array of Formula objects will be injected in constructor for Plan
+ */
 namespace formula {
     /// Exclusive upper bound for proficiency levels (see class Formula).
     const int PROFICIENCY_LEVEL_LIMIT = 3;
@@ -35,8 +48,12 @@ namespace formula {
 
         /// Generate the random "output factor" (f > 0.0) variate
         /// according to internal randomness and a certain distribution.
-        // double GenerateOutputFactor();
+        double GenerateOutputFactor();
 
+        ///Generate random number based
+        double GenerateRandomNumber();
+
+      ///constructor takes
     public:
         Formula(int n, int m, const int iq[], const char **in, const char **on) : proficiencyLevel(0),
                                                                                   inputQuantities(new int[n]),
@@ -65,12 +82,11 @@ namespace formula {
             delete[] this->outputNames;
         }
 
-        double GenerateRandomNumber();
 
-        double GenerateOutputFactor();
 
-        /// Apply the formula onto the shared arrays representing
-        /// a given inventory.
+
+
+        /// simulate output of number of resources based on outputFactor and proficiency level
         void Apply();
 
         /// Increase this object's proficiency level unless it would
@@ -78,7 +94,6 @@ namespace formula {
         void LevelUp();
 
         // getter methods for querying
-
         /// Count the input resources
         [[nodiscard]] int InputLength() const { return this->countInputs; }
 

@@ -5,6 +5,21 @@
 #define P2_PLAN_H
 
 #include "Formula.h"
+/*
+ * //class invariant:
+// constructor uses dependency injection to insert an intial array of Formulas where size is determined by client
+ // Array of Formulas passed as member variable consistent with Composition
+// the client is responsible for setting the size of initial array of formulas along with passing the array of objects
+ //client responsible for passing heap-allocated Formula object to append
+ // client responsible for providing index and Formula object to replace in array of Formula objects
+ // client responsible for deallocating any heap memory used for instantiating new objects
+ // client can manipulate and change Formula objects through adding to end of array,
+//
+
+
+ copy semantics and deep copying to prevent data curroption (using heap memory)
+
+ */
 
 namespace plan {
     // Import the class Formula from formula into plan
